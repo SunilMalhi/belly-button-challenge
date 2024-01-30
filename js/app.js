@@ -1,7 +1,7 @@
 // This makes a call to the json data and uses it to populate the dropdown. 
 // This only needs to occur once, since the data does not update live.
 // Then once the dropdown is filled with the initial value, optionChanged is called so that everything populates.
-d3.json("./data/samples.json").then(function(incomingData) {
+d3.json("./samples.json").then(function(incomingData) {
     
     //Populate the dropdown
     d3.select("#selDataset")
@@ -101,7 +101,7 @@ function Meta(data) {
 
 // This 'master function' loads in the json data and executes each function so all charts are populated.
 function optionChanged(value) {
-    d3.json("./data/samples.json").then(function(incomingData) {
+    d3.json("./samples.json").then(function(incomingData) {
         var metadata = incomingData.metadata.filter(data => data.id ==value);
         console.log(metadata);
 
