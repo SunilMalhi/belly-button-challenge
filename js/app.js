@@ -60,7 +60,7 @@ function CreateGauge(num) {
     {
         domain: { x: [0, 1], y: [0, 1] },
         value: num,
-        title: "<b>Weekly Belly Button Washing Frequency</b>\nScrubs per Week",
+        title: "<b>Weekly Belly Button Washing Frequency</b><br>Scrubs per Week",
         type: "indicator",
         mode: "gauge+number",
         gauge: {
