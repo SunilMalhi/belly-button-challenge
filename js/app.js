@@ -1,12 +1,10 @@
-// This makes a call to the json data and uses it to populate the dropdown. 
-// This only needs to occur once, since the data does not update live.
-// Then once the dropdown is filled with the initial value, optionChanged is called so that everything populates.
-d3.json("./samples.json").then(function(incomingData) {
+// Calls the json data and uses it to fill the dropdown with initial value.
+// optionChanged is called so that all values show in dropdown.
+d3.json("./samples.json").then(function(jsonData) {
     
-    //Populate the dropdown
     d3.select("#selDataset")
         .selectAll("option")
-        .data(incomingData.names)
+        .data(jsonData.names)
         .enter()
         .append("option")
         .text(d=>d)
@@ -15,8 +13,7 @@ d3.json("./samples.json").then(function(incomingData) {
     optionChanged(d3.select("#selDataset").property("value"));
 });
 
-// This function is used in optionChanged which feeds it the top 10 OTUs and the labels.
-// From there a bar chart is created.
+// Gives the top 10 OTUs and creates horizontal bar chart.
 function CreateHBar(x,y,text) {
     var data = [{
         type: 'bar',
@@ -33,8 +30,7 @@ function CreateHBar(x,y,text) {
     Plotly.newPlot('bar', data, layout);
 }
 
-// This function is used in optionChanged which feeds it all 10 OTUs and the labels.
-// From there a bubble chart is created.
+// Creates bubble chart for the top 10 OTUs
 function CreateBubble(x,y,text) {
     var data = [{
         x: x,
@@ -53,12 +49,16 @@ function CreateBubble(x,y,text) {
               text: 'OTU ID',
             }
         }
+        yaxis: {
+            title: {
+              text: 'Value',
+            }
+        }
     };
     Plotly.newPlot('bubble', data, layout);
 }
 
-// This function is used in optionChanged which feeds it the number of weekly belly button washes.
-// From there a gauge chart is created.
+// Create guage chart to show number of weekly belly button washes.
 function CreateGauge(num) {
     
     var data = [
@@ -88,8 +88,6 @@ function CreateGauge(num) {
     Plotly.newPlot('gauge', data);
 }
 
-// This function is used in optionChanged which feeds it the metadata.
-// The existing unordered list is cleared and a new one takes the place.
 function Meta(data) {
     var div = d3.select("#sample-metadata");
     div.html("")
@@ -99,14 +97,12 @@ function Meta(data) {
      });
 }
 
-// This 'master function' loads in the json data and executes each function so all charts are populated.
+// Loads in json data and executes each chart
 function optionChanged(value) {
-    d3.json("./samples.json").then(function(incomingData) {
-        var metadata = incomingData.metadata.filter(data => data.id ==value);
-        console.log(metadata);
+    d3.json("./samples.json").then(function(jsonData) {
+        var metadata = jsonData.metadata.filter(data => data.id ==value);
 
-        var sample = incomingData.samples.filter(data => data.id ==value);
-        console.log(sample);
+        var sample = jsonData.samples.filter(data => data.id ==value);
 
         CreateHBar(sample[0].sample_values.slice(0,10).reverse(),sample[0].otu_ids.slice(0,10).reverse().map(a=>"OTU "+ a),sample[0].otu_labels.slice(0,10).reverse());
         CreateBubble(sample[0].otu_ids,sample[0].sample_values,sample[0].otu_labels);
