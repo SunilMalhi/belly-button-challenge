@@ -22,12 +22,8 @@ function CreateHBar(x,y,text) {
         text: text,
         orientation: 'h'
     }];
-
-    var layout = {
-        title: "Top 10 OTUs"
-      };
-
-    Plotly.newPlot('bar', data, layout);
+    
+    Plotly.newPlot('bar', data);
 }
 
 // Creates bubble chart for the top 10 OTUs
@@ -43,7 +39,6 @@ function CreateBubble(x,y,text) {
         }
     }];
     var layout = {
-        title: "OTU Values",
         xaxis: {
             title: {
               text: 'OTU ID',
