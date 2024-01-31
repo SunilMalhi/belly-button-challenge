@@ -48,7 +48,7 @@ function CreateBubble(x,y,text) {
             title: {
               text: 'OTU ID',
             }
-        }
+        },
         yaxis: {
             title: {
               text: 'Value',
